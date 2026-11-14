@@ -98,7 +98,7 @@ export default function ChatPage() {
   const currentChannel = CHANNELS.find((c) => c.id === activeRoom) || CHANNELS[0];
 
   return (
-    <div className="rounded-3xl border border-slate-200/90 bg-white shadow-elevated overflow-hidden flex flex-col h-[calc(100vh-8.5rem)]">
+    <div className="rounded-3xl border border-border/20 bg-surface shadow-elevated overflow-hidden flex flex-col h-[calc(100vh-8.5rem)]">
       {/* Top Huddle Bar (if active) */}
       {huddleActive && (
         <HuddleBar
@@ -110,13 +110,13 @@ export default function ChatPage() {
       {/* Main Chat Workspace */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Channel Sidebar */}
-        <div className="w-60 sm:w-68 border-r border-slate-200/90 bg-slate-50/70 p-3.5 flex flex-col shrink-0">
-          <div className="flex items-center justify-between px-2.5 pb-3 mb-2 border-b border-slate-200/80">
-            <span className="text-[11px] font-extrabold text-slate-800 uppercase tracking-wider">
+        <div className="w-60 sm:w-68 border-r border-border/15 bg-surface-2/60 p-3.5 flex flex-col shrink-0">
+          <div className="flex items-center justify-between px-2.5 pb-3 mb-2 border-b border-border/15">
+            <span className="text-[11px] font-extrabold text-fg uppercase tracking-wider font-mono">
               Huddle Channels
             </span>
-            <span className="flex items-center gap-1.5 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-extrabold text-emerald-800 border border-emerald-200/80">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-extrabold text-emerald-400 border border-emerald-500/30">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span>Live</span>
             </span>
           </div>
@@ -128,13 +128,13 @@ export default function ChatPage() {
                 <button
                   key={ch.id}
                   onClick={() => setActiveRoom(ch.id)}
-                  className={`w-full flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-xs font-bold transition-all ${
+                  className={`w-full flex items-center gap-2.5 rounded-2xl px-3 py-2.5 text-left text-xs font-bold transition-all ${
                     isActive
-                      ? 'bg-slate-900 text-white shadow-xs'
-                      : 'text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
+                      ? 'bg-brand text-brand-fg shadow-glow font-bold'
+                      : 'text-muted hover:bg-surface-2 hover:text-fg'
                   }`}
                 >
-                  <Hash className={`h-4 w-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <Hash className={`h-4 w-4 shrink-0 ${isActive ? 'text-brand-fg' : 'text-muted'}`} />
                   <span className="truncate">{ch.name}</span>
                 </button>
               );
@@ -142,13 +142,13 @@ export default function ChatPage() {
           </div>
 
           {/* Quick Voice Huddle Toggle CTA */}
-          <div className="mt-auto pt-3 border-t border-slate-200/80">
+          <div className="mt-auto pt-3 border-t border-border/15">
             <button
               onClick={() => setHuddleActive(!huddleActive)}
-              className={`w-full flex items-center justify-center gap-2 rounded-xl py-2.5 px-3 text-xs font-bold transition-all shadow-xs ${
+              className={`w-full flex items-center justify-center gap-2 rounded-2xl py-2.5 px-3 text-xs font-bold transition-all shadow-xs ${
                 huddleActive
-                  ? 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100'
-                  : 'bg-gradient-to-r from-brand-600 to-indigo-600 text-white hover:from-brand-500 hover:to-indigo-500 btn-shine'
+                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
+                  : 'bg-brand text-brand-fg hover:opacity-95 shadow-glow btn-shine'
               }`}
             >
               <Radio className="h-4 w-4 shrink-0 animate-pulse" />
@@ -158,18 +158,18 @@ export default function ChatPage() {
         </div>
 
         {/* Right Message Feed & Input */}
-        <div className="flex-1 flex flex-col bg-white overflow-hidden">
+        <div className="flex-1 flex flex-col bg-surface overflow-hidden">
           {/* Channel Header */}
-          <div className="h-16 border-b border-slate-200/90 px-5 flex items-center justify-between shrink-0 bg-white">
+          <div className="h-16 border-b border-border/15 px-5 flex items-center justify-between shrink-0 bg-surface">
             <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600">
+              <div className="h-8 w-8 rounded-xl bg-surface-2 flex items-center justify-center text-muted">
                 <Hash className="h-4 w-4" />
               </div>
               <div>
-                <h3 className="text-sm font-extrabold text-slate-900 leading-tight">
+                <h3 className="text-sm font-extrabold text-fg leading-tight font-display">
                   {currentChannel.name}
                 </h3>
-                <p className="text-[11px] text-slate-500 truncate max-w-sm sm:max-w-md">
+                <p className="text-[11px] text-muted truncate max-w-sm sm:max-w-md">
                   {currentChannel.description}
                 </p>
               </div>
@@ -179,9 +179,9 @@ export default function ChatPage() {
             {!huddleActive && (
               <button
                 onClick={() => setHuddleActive(true)}
-                className="hidden sm:inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:border-slate-300 transition shadow-xs"
+                className="hidden sm:inline-flex items-center gap-2 rounded-xl border border-border/20 bg-surface-2 px-3.5 py-1.5 text-xs font-bold text-fg hover:border-brand/40 transition shadow-xs"
               >
-                <Radio className="h-3.5 w-3.5 text-emerald-600" />
+                <Radio className="h-3.5 w-3.5 text-emerald-400" />
                 <span>Join Voice / Video Huddle</span>
               </button>
             )}
@@ -193,21 +193,21 @@ export default function ChatPage() {
               <div className="space-y-4 p-4">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="flex gap-3 animate-pulse">
-                    <div className="h-9 w-9 rounded-full bg-slate-200 shrink-0" />
+                    <div className="h-9 w-9 rounded-full bg-surface-2 shrink-0" />
                     <div className="space-y-2 flex-1">
-                      <div className="h-3 w-32 rounded bg-slate-200" />
-                      <div className="h-10 w-3/4 rounded bg-slate-100" />
+                      <div className="h-3 w-32 rounded bg-surface-2" />
+                      <div className="h-10 w-3/4 rounded bg-surface-2" />
                     </div>
                   </div>
                 ))}
               </div>
             ) : messages.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400">
-                <div className="h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 mb-2.5">
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 text-muted">
+                <div className="h-12 w-12 rounded-2xl bg-surface-2 flex items-center justify-center text-muted mb-2.5">
                   <MessageSquare className="h-6 w-6" />
                 </div>
-                <p className="text-xs font-bold text-slate-700">No messages in this huddle room yet</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Start the conversation with your fellow student hackers!</p>
+                <p className="text-xs font-bold text-fg font-display">No messages in this huddle room yet</p>
+                <p className="text-[11px] text-muted mt-0.5">Start the conversation with your fellow student hackers!</p>
               </div>
             ) : (
               messages.map((msg) => {
@@ -221,9 +221,9 @@ export default function ChatPage() {
 
                     <div className="flex-1 max-w-xl">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-extrabold text-slate-900">{msg.sender_name}</span>
-                        <span className="text-[10px] font-semibold text-slate-400">{msg.sender_college}</span>
-                        <span className="text-[10px] text-slate-300">
+                        <span className="text-xs font-extrabold text-fg font-display">{msg.sender_name}</span>
+                        <span className="text-[10px] font-semibold text-muted font-mono">{msg.sender_college}</span>
+                        <span className="text-[10px] text-muted font-mono">
                           {msg.created_at
                             ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                             : 'Just now'}
@@ -232,8 +232,8 @@ export default function ChatPage() {
                       <div
                         className={`inline-block rounded-2xl px-4 py-2.5 text-xs leading-relaxed shadow-xs ${
                           isMe
-                            ? 'bg-slate-900 text-white rounded-tl-sm'
-                            : 'bg-slate-50 text-slate-800 rounded-tl-sm border border-slate-200/90'
+                            ? 'bg-brand text-brand-fg rounded-tl-sm shadow-glow font-medium'
+                            : 'bg-surface-2 text-fg rounded-tl-sm border border-border/20'
                         }`}
                       >
                         {msg.content}
@@ -249,19 +249,19 @@ export default function ChatPage() {
           {/* Chat Input Bar */}
           <form
             onSubmit={handleSendMessage}
-            className="p-3.5 border-t border-slate-200/90 bg-white flex items-center gap-2.5 shrink-0"
+            className="p-3.5 border-t border-border/15 bg-surface flex items-center gap-2.5 shrink-0"
           >
             <input
               type="text"
               placeholder={`Message #${currentChannel.name}...`}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              className="flex-1 rounded-xl border border-slate-200/90 px-4 py-2.5 text-xs text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none bg-slate-50/60 hover:bg-white transition"
+              className="flex-1 rounded-2xl border border-border/20 px-4 py-2.5 text-xs text-fg focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none bg-surface-2/60 hover:bg-surface-2 transition"
             />
             <button
               type="submit"
               disabled={!inputText.trim()}
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition disabled:opacity-40 shrink-0 shadow-xs btn-shine"
+              className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand text-brand-fg hover:opacity-95 transition disabled:opacity-40 shrink-0 shadow-glow btn-shine"
             >
               <Send className="h-4 w-4" />
             </button>

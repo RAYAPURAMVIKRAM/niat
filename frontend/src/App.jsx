@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { ToastProvider } from './context/ToastContext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import MobileNav from './components/MobileNav';
+import Footer from './components/Footer';
+import BackToTop from './components/ui/BackToTop';
+import RouteProgressBar from './components/RouteProgressBar';
+import CommandPalette from './components/CommandPalette';
+import OnboardingModal from './components/OnboardingModal';
 
 // Modals
 import HostEventModal from './components/HostEventModal';
@@ -27,6 +34,7 @@ function MainLayout() {
   const [createTravelModalOpen, setCreateTravelModalOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('login');
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [eventsList, setEventsList] = useState([]);
 
   // Load events for dropdowns in modals
@@ -49,11 +57,15 @@ function MainLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
+    <div className="min-h-screen bg-bg text-fg flex flex-col font-sans transition-colors duration-300">
+      {/* Top Route Progress Bar */}
+      <RouteProgressBar />
+
       {/* Top Navbar */}
       <Navbar
         onOpenAuth={openAuth}
         onOpenHostEvent={() => setHostEventModalOpen(true)}
+        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
       />
 
       {/* Main Workspace with Sidebar & Dynamic Views */}
@@ -64,7 +76,7 @@ function MainLayout() {
           onOpenCreateTravel={() => setCreateTravelModalOpen(true)}
         />
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-20 lg:pb-8 overflow-y-auto min-w-0">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-24 lg:pb-10 overflow-y-auto min-w-0">
           <Routes>
             <Route
               path="/"
@@ -92,8 +104,26 @@ function MainLayout() {
         </main>
       </div>
 
-      {/* Mobile Bottom Navigation */}
+      {/* Modern Footer */}
+      <Footer />
+
+      {/* Back to Top Floating Action */}
+      <BackToTop />
+
+      {/* Mobile Bottom Navigation Dock */}
       <MobileNav />
+
+      {/* Command Palette (Cmd + K) */}
+      <CommandPalette
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+        onOpenHostEvent={() => setHostEventModalOpen(true)}
+        onOpenPostTeam={() => setPostTeamModalOpen(true)}
+        onOpenCreateTravel={() => setCreateTravelModalOpen(true)}
+      />
+
+      {/* 3-Step First-Time Onboarding Tour */}
+      <OnboardingModal />
 
       {/* Modals */}
       <HostEventModal
@@ -138,10 +168,14 @@ function MainLayout() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <MainLayout />
-      </BrowserRouter>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <ToastProvider>
+          <BrowserRouter>
+            <MainLayout />
+          </BrowserRouter>
+        </ToastProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

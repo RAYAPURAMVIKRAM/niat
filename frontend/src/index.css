@@ -2,30 +2,144 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════════════
+   3-THEME SYSTEM (RGB CHANNEL VARIABLES)
+   ═══════════════════════════════════════════════════════════════ */
+
+:root,
+:root[data-theme="aurum"] {
+  --bg: 10 10 11;               /* #0A0A0B midnight black */
+  --surface: 20 20 22;          /* #141416 dark surface */
+  --surface-2: 28 28 31;        /* #1C1C1F elevated surface */
+  --surface-ivory: 250 247 238; /* #FAF7EE soft ivory card */
+  --surface-ivory-fg: 10 10 11; /* #0A0A0B */
+  --fg: 255 255 255;            /* #FFFFFF */
+  --muted: 168 165 155;         /* #A8A59B */
+  --border: 255 255 255;        /* 0.08 alpha by default */
+  --brand: 255 194 26;          /* #FFC21A vibrant golden yellow */
+  --brand-fg: 10 10 11;         /* #0A0A0B */
+  --accent: 255 226 122;        /* #FFE27A gold accent */
+  --accent-fg: 10 10 11;
+  --success: 16 185 129;        /* #10B981 emerald */
+  --warning: 245 158 11;        /* #F59E0B */
+  --danger: 244 63 94;          /* #F43F5E rose */
+  --ring: 255 194 26;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-card: 1.5rem;
+  --shadow-glow: 0 0 40px rgba(255, 194, 26, 0.28);
+  --grad-hero: linear-gradient(135deg, #0A0A0B 0%, #161510 50%, #261E0A 100%);
+  --grad-brand: linear-gradient(135deg, #FFC21A 0%, #FFE27A 100%);
+  --grad-mesh: radial-gradient(at 15% 15%, rgba(255, 194, 26, 0.16) 0px, transparent 55%), radial-gradient(at 85% 85%, rgba(255, 226, 122, 0.12) 0px, transparent 55%);
+}
+
+:root[data-theme="volt"] {
+  --bg: 7 8 10;                 /* #07080A midnight black */
+  --surface: 16 18 22;          /* #101216 */
+  --surface-2: 23 26 32;        /* #171A20 */
+  --surface-ivory: 246 240 225; /* #F6F0E1 warm ivory card */
+  --surface-ivory-fg: 7 8 10;
+  --fg: 246 240 225;            /* #F6F0E1 warm ivory */
+  --muted: 154 151 136;         /* #9A9788 */
+  --border: 182 255 0;          /* 0.14 alpha */
+  --brand: 182 255 0;           /* #B6FF00 neon lime */
+  --brand-fg: 7 8 10;           /* #07080A */
+  --accent: 228 255 138;        /* #E4FF8A */
+  --accent-fg: 7 8 10;
+  --success: 182 255 0;
+  --warning: 255 170 0;
+  --danger: 255 51 102;
+  --ring: 182 255 0;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
+  --radius-card: 1.25rem;
+  --shadow-glow: 0 0 35px rgba(182, 255, 0, 0.35);
+  --grad-hero: linear-gradient(135deg, #07080A 0%, #0F140A 50%, #172407 100%);
+  --grad-brand: linear-gradient(135deg, #B6FF00 0%, #E4FF8A 100%);
+  --grad-mesh: radial-gradient(at 15% 15%, rgba(182, 255, 0, 0.18) 0px, transparent 55%), radial-gradient(at 85% 85%, rgba(228, 255, 138, 0.12) 0px, transparent 55%);
+}
+
+:root[data-theme="lagoon"] {
+  --bg: 244 250 248;            /* #F4FAF8 soft mint-white */
+  --surface: 255 255 255;       /* #FFFFFF */
+  --surface-2: 230 243 240;     /* #E6F3F0 */
+  --surface-ivory: 11 79 74;    /* deep teal */
+  --surface-ivory-fg: 244 250 248;
+  --fg: 11 46 43;               /* #0B2E2B */
+  --muted: 79 122 117;          /* #4F7A75 */
+  --border: 11 79 74;           /* 0.12 alpha */
+  --brand: 255 107 74;          /* #FF6B4A coral orange */
+  --brand-fg: 255 255 255;      /* white */
+  --accent: 14 124 115;         /* #0E7C73 teal */
+  --accent-fg: 244 250 248;
+  --success: 16 185 129;
+  --warning: 245 158 11;
+  --danger: 239 68 68;
+  --ring: 255 107 74;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-card: 1.75rem;
+  --shadow-glow: 0 0 36px rgba(255, 107, 74, 0.32);
+  --grad-hero: linear-gradient(135deg, #0B4F4A 0%, #0E6660 50%, #137A74 100%);
+  --grad-brand: linear-gradient(135deg, #FF6B4A 0%, #FF8A65 100%);
+  --grad-mesh: radial-gradient(at 15% 15%, rgba(255, 107, 74, 0.15) 0px, transparent 55%), radial-gradient(at 85% 85%, rgba(14, 124, 115, 0.15) 0px, transparent 55%);
+}
+
 @layer base {
   body {
-    @apply font-sans bg-slate-50 text-slate-900 antialiased selection:bg-brand-600 selection:text-white;
+    @apply font-sans bg-bg text-fg antialiased selection:bg-brand selection:text-brand-fg;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight text-slate-900;
+    @apply font-display tracking-tight text-fg;
   }
 }
 
+/* Smooth theme transition on structural elements */
+body, nav, aside, main, .glass, .glass-card, button, input, select, textarea {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
 @layer components {
-  /* Linear & Stripe inspired Glassmorphism */
+  /* Dynamic Glassmorphism */
   .glass {
-    @apply bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-subtle;
+    background-color: rgb(var(--surface) / 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgb(var(--border) / 0.12);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
   }
 
   .glass-card {
-    @apply bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-subtle rounded-2xl transition-all duration-300;
+    background-color: rgb(var(--surface) / 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgb(var(--border) / 0.12);
+    border-radius: var(--radius-card, 1.5rem);
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+
+  /* Ivory Card Variant for Aurum & Volt */
+  .card-ivory {
+    background-color: rgb(var(--surface-ivory));
+    color: rgb(var(--surface-ivory-fg));
+    border: 1px solid rgb(var(--border) / 0.12);
+    border-radius: var(--radius-card, 1.5rem);
   }
 
   /* Card Lift on Hover */
   .card-lift {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-elevated-hover hover:border-slate-300;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.35);
+    border-color: rgb(var(--brand) / 0.4);
   }
 
   /* Executive Button Light Sweep (btn-shine) */
@@ -56,11 +170,11 @@
     transform: translateX(380%) rotate(25deg);
   }
 
-  /* Gradient Glow Border for Active AI Agents */
+  /* Glow Border with dynamic theme gradient */
   .glow-border {
     position: relative;
-    border-radius: 1rem;
-    background: #ffffff;
+    border-radius: var(--radius-card, 1.5rem);
+    background: rgb(var(--surface));
   }
 
   .glow-border::before {
@@ -69,7 +183,7 @@
     inset: -2px;
     border-radius: inherit;
     padding: 2px;
-    background: linear-gradient(135deg, #4f46e5, #ec4899, #8b5cf6, #3b82f6);
+    background: linear-gradient(135deg, rgb(var(--brand)), rgb(var(--accent)), rgb(var(--brand)));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -79,7 +193,8 @@
 
   /* Loading Skeleton Shimmer */
   .skeleton {
-    @apply relative overflow-hidden bg-slate-200/70 rounded-lg;
+    @apply relative overflow-hidden rounded-lg;
+    background-color: rgb(var(--surface-2));
   }
 
   .skeleton::after {
@@ -92,45 +207,50 @@
     background: linear-gradient(
       90deg,
       rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0.12) 50%,
       rgba(255, 255, 255, 0) 100%
     );
     background-size: 200% 100%;
     animation: shimmer 1.6s infinite;
   }
 
-  /* Badge variants */
-  .badge-verified {
-    @apply inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700 border border-emerald-200 shadow-xs;
+  /* Interactive Spotlight Layer */
+  .spotlight-card {
+    position: relative;
+    overflow: hidden;
   }
-
-  .badge-prize {
-    @apply inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-800 border border-amber-200 tabular-nums shadow-xs;
+  .spotlight-card::before {
+    content: '';
+    position: absolute;
+    top: var(--my, 50%);
+    left: var(--mx, 50%);
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgb(var(--brand) / 0.15), transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
-
-  .badge-women-only {
-    @apply inline-flex items-center gap-1 rounded-full bg-rose-50 px-2.5 py-0.5 text-[11px] font-bold text-rose-700 border border-rose-200/80 shadow-xs;
-  }
-
-  .badge-agent {
-    @apply inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-2.5 py-0.5 text-[11px] font-bold text-brand-700 border border-brand-200 shadow-xs;
+  .spotlight-card:hover::before {
+    opacity: 1;
   }
 }
 
 /* Custom crisp scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: rgb(var(--border) / 0.25);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: rgb(var(--border) / 0.45);
 }
 
 /* Tabular Numbers */
