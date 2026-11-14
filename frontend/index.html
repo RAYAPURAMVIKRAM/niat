@@ -11,10 +11,10 @@
       (function() {
         try {
           var saved = localStorage.getItem('hacksphere_theme');
-          var theme = saved || 'aurum';
+          var theme = saved || 'classic';
           document.documentElement.dataset.theme = theme;
         } catch (e) {
-          document.documentElement.dataset.theme = 'aurum';
+          document.documentElement.dataset.theme = 'classic';
         }
       })();
     </script>

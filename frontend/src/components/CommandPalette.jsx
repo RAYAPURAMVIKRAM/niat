@@ -103,6 +103,13 @@ export default function CommandPalette({ isOpen, onClose, onOpenHostEvent, onOpe
     },
     // Theme switches
     {
+      id: 'theme-classic',
+      title: 'Switch Theme: Classic',
+      subtitle: 'Executive Indigo & Slate (Default Phase 1 Look)',
+      icon: Palette,
+      perform: () => { setTheme('classic'); onClose(); }
+    },
+    {
       id: 'theme-aurum',
       title: 'Switch Theme: Aurum',
       subtitle: 'Midnight Black + Pure White + Vibrant Golden Yellow',

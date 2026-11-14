@@ -4,6 +4,15 @@ const ThemeContext = createContext();
 
 export const THEMES = [
   {
+    id: 'classic',
+    name: 'Classic',
+    tagline: 'Executive Indigo & Slate (Phase 1)',
+    primary: '#4F46E5',
+    bg: '#F8FAFC',
+    fg: '#0F172A',
+    fontDisplay: 'Plus Jakarta Sans',
+  },
+  {
     id: 'aurum',
     name: 'Aurum',
     tagline: 'Midnight Luxury Gold',
@@ -36,17 +45,17 @@ export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(() => {
     try {
       const saved = localStorage.getItem('hacksphere_theme');
-      if (saved && ['aurum', 'volt', 'lagoon'].includes(saved)) {
+      if (saved && ['classic', 'aurum', 'volt', 'lagoon'].includes(saved)) {
         return saved;
       }
     } catch (e) {
       // localStorage disabled or security block
     }
-    return 'aurum';
+    return 'classic';
   });
 
   const setTheme = (newTheme) => {
-    if (!['aurum', 'volt', 'lagoon'].includes(newTheme)) return;
+    if (!['classic', 'aurum', 'volt', 'lagoon'].includes(newTheme)) return;
     setThemeState(newTheme);
     try {
       localStorage.setItem('hacksphere_theme', newTheme);

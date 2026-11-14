@@ -45,7 +45,7 @@ HackSphere AI is an **Executive Agentic AI Social Ecosystem** that unifies compe
 - **2-Tier Student Trust Verification:** Combines instant institutional email validation (`.edu.in` / `.ac.in`) with **Gemini Multimodal Vision OCR** to verify physical college ID cards and issue cryptographic campus trust badges.
 - **Safe Outstation Travel Pods:** Facilitates student carpools, sleeper train berth bookings, and cost splits (saving ~55% vs solo travel), featuring dedicated **Women-Only Safe Pods**.
 - **Real-Time Collaboration & WebRTC Huddle Rooms:** Live discussion channels accompanied by an interactive simulated audio/video huddle bar with animated equalizer audio meters.
-- **Phase 2 Executive Visual System:** A 3-theme color & typography engine (**Aurum**, **Volt**, **Lagoon**) with persistent switcher, command palette (`Ctrl/Cmd + K`), 3D perspective tilt cards, toast notifications, confetti bursts, and live stats counters.
+- **Phase 2 Executive Visual System:** A 4-theme color & typography engine (**Classic [Default]**, **Aurum**, **Volt**, **Lagoon**) with persistent switcher, command palette (`Ctrl/Cmd + K`), 3D perspective tilt cards, toast notifications, confetti bursts, and live stats counters.
 
 ---
 
@@ -88,7 +88,8 @@ Analyzes uploaded physical college ID cards using Gemini Multimodal Vision. Scan
 
 | Theme Name | Mood & Personality | Primary Palette | Display Font | Body & Mono Fonts |
 | :--- | :--- | :--- | :--- | :--- |
-| **Aurum** *(Default)* | Midnight Luxury Tech, Executive SaaS | Midnight Black (`#0A0A0B`), Pure White, Vibrant Golden Yellow (`#FFC21A`), Soft Ivory | `Fraunces` (Serif) | `Inter` / `JetBrains Mono` |
+| **Classic** *(Default)* | Executive SaaS, Clean Slate & Indigo (Phase 1) | Slate-50 (`#F8FAFC`), White (`#FFFFFF`), Indigo (`#4F46E5`), Violet (`#8B5CF6`) | `Plus Jakarta Sans` | `Inter` / `Space Grotesk` |
+| **Aurum** | Midnight Luxury Tech, Executive SaaS | Midnight Black (`#0A0A0B`), Pure White, Vibrant Golden Yellow (`#FFC21A`), Soft Ivory | `Fraunces` (Serif) | `Inter` / `JetBrains Mono` |
 | **Volt** | Cyber Hacker, Terminal Velocity | Midnight Black (`#07080A`), Neon Lime (`#B6FF00`), Warm Ivory (`#F6F0E1`) | `Space Grotesk` | `DM Sans` / `Space Mono` |
 | **Lagoon** | Fresh Campus Energy, Startup Mint | Soft Mint White (`#F4FAF8`), Deep Teal Green (`#0B4F4A`), Coral Orange (`#FF6B4A`) | `Outfit` / `Sora` | `Plus Jakarta Sans` / `IBM Plex Mono` |
 
@@ -100,7 +101,7 @@ Analyzes uploaded physical college ID cards using Gemini Multimodal Vision. Scan
 graph TB
     subgraph Client ["Frontend (React 18 + Vite + Tailwind CSS)"]
         UI["UI Primitives & Pages (/ , /agent, /teams, /travel, /verify, /chat)"]
-        TC["ThemeContext (Aurum / Volt / Lagoon)"]
+        TC["ThemeContext (Classic / Aurum / Volt / Lagoon)"]
         AC["AuthContext (JWT + 1-Click Demo)"]
         CP["CommandPalette (Ctrl+K)"]
         Toast["Toast Notification System"]
@@ -180,10 +181,10 @@ niat/
 │   │   │   ├── PostTeamModal.jsx   # Teammate bounty creation modal
 │   │   │   ├── RouteProgressBar.jsx# Top thin animated route transition bar
 │   │   │   ├── Sidebar.jsx         # Executive desktop workspace navigation
-│   │   │   └── ThemeSwitcher.jsx   # 3-palette theme switcher pill
+│   │   │   └── ThemeSwitcher.jsx   # 4-palette theme switcher pill
 │   │   ├── context/
 │   │   │   ├── AuthContext.jsx     # JWT state, 1-click demo login, health polling
-│   │   │   ├── ThemeContext.jsx    # Aurum / Volt / Lagoon theme provider
+│   │   │   ├── ThemeContext.jsx    # Classic / Aurum / Volt / Lagoon theme provider
 │   │   │   └── ToastContext.jsx    # Global toast notification system
 │   │   ├── hooks/
 │   │   │   └── useTilt.js          # 3D perspective mouse tilt hook
@@ -346,7 +347,7 @@ npm run dev
    - Inspect estimated per-person split costs and reserved seats.
 
 6. **Switch Themes & Use Command Palette:**
-   - Click the Theme Switcher pill in the navbar to toggle between **Aurum** (Gold/Black), **Volt** (Neon Lime), and **Lagoon** (Teal/Coral). Refresh the page to verify persistent theme memory!
+   - Click the Theme Switcher pill in the navbar to toggle between **Classic** (Default Indigo/Slate), **Aurum** (Gold/Black), **Volt** (Neon Lime), and **Lagoon** (Teal/Coral). Refresh the page to verify persistent theme memory!
    - Press **`Ctrl + K`** (or **`Cmd + K`**) to open the command palette and jump between routes instantly.
 
 ---

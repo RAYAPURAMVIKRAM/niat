@@ -114,14 +114,14 @@ export default function OnboardingModal() {
               </p>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 pt-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
               {themes.map((t) => {
                 const isSelected = theme === t.id;
                 return (
                   <button
                     key={t.id}
                     onClick={() => setTheme(t.id)}
-                    className={`flex flex-col items-center p-3.5 rounded-2xl border transition-all text-center ${
+                    className={`flex flex-col items-center p-3 rounded-2xl border transition-all text-center ${
                       isSelected
                         ? 'border-brand bg-brand/15 shadow-glow ring-2 ring-brand/40'
                         : 'border-border/15 bg-surface-2/60 hover:border-border/30'
@@ -131,7 +131,9 @@ export default function OnboardingModal() {
                       className="w-7 h-7 rounded-full border border-black/20 shadow-sm flex items-center justify-center mb-2"
                       style={{ backgroundColor: t.primary }}
                     >
-                      {isSelected && <Check className="h-4 w-4 text-black" />}
+                      {isSelected && (
+                        <Check className={`h-4 w-4 ${t.id === 'classic' ? 'text-white' : 'text-black'}`} />
+                      )}
                     </span>
                     <span className="text-xs font-bold text-fg">{t.name}</span>
                     <span className="text-[10px] text-muted truncate max-w-full mt-0.5">{t.tagline}</span>

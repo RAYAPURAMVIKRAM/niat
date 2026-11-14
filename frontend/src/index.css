@@ -3,10 +3,38 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════════════════════════
-   3-THEME SYSTEM (RGB CHANNEL VARIABLES)
+   4-THEME SYSTEM (RGB CHANNEL VARIABLES)
+   Default: CLASSIC (Phase 1 look preserved exactly)
    ═══════════════════════════════════════════════════════════════ */
 
 :root,
+:root[data-theme="classic"] {
+  --bg: 248 250 252;            /* #F8FAFC slate-50 */
+  --surface: 255 255 255;       /* #FFFFFF pure white */
+  --surface-2: 241 245 249;     /* #F1F5F9 slate-100 */
+  --surface-ivory: 255 255 255; /* #FFFFFF */
+  --surface-ivory-fg: 15 23 42; /* #0F172A slate-900 */
+  --fg: 15 23 42;               /* #0F172A slate-900 */
+  --muted: 100 116 139;         /* #64748B slate-500 */
+  --border: 226 232 240;        /* #E2E8F0 slate-200 */
+  --brand: 79 70 229;           /* #4F46E5 executive indigo-600 */
+  --brand-fg: 255 255 255;      /* #FFFFFF pure white */
+  --accent: 139 92 246;         /* #8B5CF6 violet-500 */
+  --accent-fg: 255 255 255;
+  --success: 16 185 129;        /* #10B981 emerald-500 */
+  --warning: 245 158 11;        /* #F59E0B amber-500 */
+  --danger: 225 29 72;          /* #E11D48 rose-600 */
+  --ring: 79 70 229;
+  --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'Space Grotesk', 'JetBrains Mono', monospace;
+  --radius-card: 1.5rem;
+  --shadow-glow: 0 0 30px -5px rgba(79, 70, 229, 0.3);
+  --grad-hero: linear-gradient(135deg, #020617 0%, #0F172A 50%, #1E1B4B 100%);
+  --grad-brand: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  --grad-mesh: radial-gradient(at 15% 15%, rgba(79, 70, 229, 0.12) 0px, transparent 55%), radial-gradient(at 85% 85%, rgba(139, 92, 246, 0.1) 0px, transparent 55%);
+}
+
 :root[data-theme="aurum"] {
   --bg: 10 10 11;               /* #0A0A0B midnight black */
   --surface: 20 20 22;          /* #141416 dark surface */
@@ -110,25 +138,25 @@ body, nav, aside, main, .glass, .glass-card, button, input, select, textarea {
     background-color: rgb(var(--surface) / 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgb(var(--border) / 0.12);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgb(var(--border) / 0.15);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
   }
 
   .glass-card {
     background-color: rgb(var(--surface) / 0.92);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgb(var(--border) / 0.12);
+    border: 1px solid rgb(var(--border) / 0.15);
     border-radius: var(--radius-card, 1.5rem);
-    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.08);
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   }
 
-  /* Ivory Card Variant for Aurum & Volt */
+  /* Ivory Card Variant */
   .card-ivory {
     background-color: rgb(var(--surface-ivory));
     color: rgb(var(--surface-ivory-fg));
-    border: 1px solid rgb(var(--border) / 0.12);
+    border: 1px solid rgb(var(--border) / 0.15);
     border-radius: var(--radius-card, 1.5rem);
   }
 
@@ -138,7 +166,7 @@ body, nav, aside, main, .glass, .glass-card, button, input, select, textarea {
   }
   .card-lift:hover {
     transform: translateY(-4px);
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
     border-color: rgb(var(--brand) / 0.4);
   }
 
@@ -207,7 +235,7 @@ body, nav, aside, main, .glass, .glass-card, button, input, select, textarea {
     background: linear-gradient(
       90deg,
       rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.3) 50%,
       rgba(255, 255, 255, 0) 100%
     );
     background-size: 200% 100%;
@@ -246,11 +274,11 @@ body, nav, aside, main, .glass, .glass-card, button, input, select, textarea {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgb(var(--border) / 0.25);
+  background: rgb(var(--border) / 0.5);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(var(--border) / 0.45);
+  background: rgb(var(--border) / 0.8);
 }
 
 /* Tabular Numbers */

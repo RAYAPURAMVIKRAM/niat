@@ -17,11 +17,12 @@ export default function Confetti({ trigger = false, onComplete }) {
 
     // Color palettes tuned to active theme
     const themeColors = {
+      classic: ['#4F46E5', '#8B5CF6', '#10B981', '#38BDF8', '#F59E0B'],
       aurum: ['#FFC21A', '#FFE27A', '#FAF7EE', '#FFFFFF', '#D97706'],
       volt: ['#B6FF00', '#E4FF8A', '#F6F0E1', '#FFFFFF', '#10B981'],
       lagoon: ['#FF6B4A', '#0E7C73', '#FF8A65', '#2DD4BF', '#F4FAF8'],
     };
-    const colors = themeColors[theme] || themeColors.aurum;
+    const colors = themeColors[theme] || themeColors.classic;
 
     const particles = Array.from({ length: 65 }, () => ({
       x: width / 2,
