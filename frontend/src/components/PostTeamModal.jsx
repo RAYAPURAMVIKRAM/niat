@@ -56,45 +56,45 @@ export default function PostTeamModal({ isOpen, onClose, events = [], onTeamCrea
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4 animate-in fade-in">
-      <div className="relative w-full max-w-xl rounded-2xl bg-white p-6 shadow-elevated border border-slate-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4 animate-fade-in">
+      <div className="relative w-full max-w-xl rounded-2xl bg-white p-6 sm:p-7 shadow-elevated border border-slate-200/90 animate-fade-in-up">
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+          className="absolute right-4 top-4 rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center gap-2 mb-4">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/70 shadow-2xs">
             <Users className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-slate-900">Post Teammate Bounty (LFT)</h3>
+            <h3 className="text-base font-bold text-slate-900 font-display">Post Teammate Bounty (LFT)</h3>
             <p className="text-xs text-slate-500">Find complementary hackers with matching skill synergy</p>
           </div>
         </div>
 
         {error && (
-          <div className="mb-4 rounded-lg bg-rose-50 p-3 text-xs text-rose-700 border border-rose-200">
+          <div className="mb-4 rounded-xl bg-rose-50 p-3 text-xs text-rose-700 border border-rose-200">
             {error}
           </div>
         )}
 
         {success ? (
-          <div className="py-8 text-center">
+          <div className="py-8 text-center animate-fade-in">
             <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-500 animate-bounce" />
-            <h4 className="mt-2 text-sm font-bold text-slate-900">Bounty Published to Matching Board!</h4>
+            <h4 className="mt-2 text-sm font-bold text-slate-900 font-display">Bounty Published to Matching Board!</h4>
             <p className="text-xs text-slate-500">Autonomous agents will now recommend your team to skilled hackers.</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-3.5 text-xs">
+          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
             <div>
               <label className="block font-semibold text-slate-700 mb-1">Target Event</label>
               <select
                 value={formData.event_id}
                 onChange={(e) => setFormData({ ...formData, event_id: e.target.value })}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition bg-white"
               >
                 <option value="">-- General / Any Hackathon --</option>
                 {events.map((ev) => (
@@ -105,7 +105,7 @@ export default function PostTeamModal({ isOpen, onClose, events = [], onTeamCrea
               </select>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
                 <label className="block font-semibold text-slate-700 mb-1">Team Name *</label>
                 <input
@@ -114,7 +114,7 @@ export default function PostTeamModal({ isOpen, onClose, events = [], onTeamCrea
                   placeholder="e.g. Team NeuralCrafters"
                   value={formData.team_name}
                   onChange={(e) => setFormData({ ...formData, team_name: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition"
                 />
               </div>
 
@@ -127,7 +127,7 @@ export default function PostTeamModal({ isOpen, onClose, events = [], onTeamCrea
                   required
                   value={formData.spots_left}
                   onChange={(e) => setFormData({ ...formData, spots_left: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition"
                 />
               </div>
             </div>
@@ -140,7 +140,7 @@ export default function PostTeamModal({ isOpen, onClose, events = [], onTeamCrea
                 placeholder="UI/UX Designer, Frontend Developer, Smart Contract Dev"
                 value={formData.looking_for_roles}
                 onChange={(e) => setFormData({ ...formData, looking_for_roles: e.target.value })}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition"
               />
             </div>
 
@@ -151,7 +151,7 @@ export default function PostTeamModal({ isOpen, onClose, events = [], onTeamCrea
                 placeholder="Next.js, Python, FastAPI, Supabase"
                 value={formData.current_stack}
                 onChange={(e) => setFormData({ ...formData, current_stack: e.target.value })}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition"
               />
             </div>
 
@@ -163,22 +163,22 @@ export default function PostTeamModal({ isOpen, onClose, events = [], onTeamCrea
                 placeholder="What are you building? Why should a hacker join your squad?"
                 value={formData.pitch}
                 onChange={(e) => setFormData({ ...formData, pitch: e.target.value })}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none resize-none"
+                className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition resize-none"
               />
             </div>
 
-            <div className="pt-3 flex justify-end gap-2 border-t border-slate-100">
+            <div className="pt-3 flex justify-end gap-2.5 border-t border-slate-100">
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-50 transition"
+                className="rounded-xl border border-slate-300 px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-50 transition"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="rounded-lg bg-emerald-600 px-5 py-2 font-semibold text-white hover:bg-emerald-700 transition disabled:opacity-60"
+                className="rounded-xl bg-emerald-600 px-5 py-2.5 font-bold text-white hover:bg-emerald-700 transition disabled:opacity-60 shadow-subtle btn-shine"
               >
                 {loading ? 'Publishing...' : 'Post Bounty'}
               </button>

@@ -50,39 +50,39 @@ export default function HostEventModal({ isOpen, onClose, onEventCreated }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4 animate-in fade-in">
-      <div className="relative w-full max-w-xl rounded-2xl bg-white p-6 shadow-elevated border border-slate-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4 animate-fade-in">
+      <div className="relative w-full max-w-xl rounded-2xl bg-white p-6 sm:p-7 shadow-elevated border border-slate-200/90 animate-fade-in-up">
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+          className="absolute right-4 top-4 rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center gap-2 mb-4">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-700 border border-brand-200/70 shadow-2xs">
             <Calendar className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-slate-900">Host / Post a Hackathon</h3>
+            <h3 className="text-base font-bold text-slate-900 font-display">Host / Post a Hackathon</h3>
             <p className="text-xs text-slate-500">Publish a new event to HackSphere AI and invite hackers</p>
           </div>
         </div>
 
         {error && (
-          <div className="mb-4 rounded-lg bg-rose-50 p-3 text-xs text-rose-700 border border-rose-200">
+          <div className="mb-4 rounded-xl bg-rose-50 p-3 text-xs text-rose-700 border border-rose-200">
             {error}
           </div>
         )}
 
         {success ? (
-          <div className="py-8 text-center">
+          <div className="py-8 text-center animate-fade-in">
             <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-500 animate-bounce" />
-            <h4 className="mt-2 text-sm font-bold text-slate-900">Event Published Successfully!</h4>
+            <h4 className="mt-2 text-sm font-bold text-slate-900 font-display">Event Published Successfully!</h4>
             <p className="text-xs text-slate-500">Hackers can now run the AI Agent, post bounties, and join travel pods.</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-3.5 text-xs">
+          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
             <div>
               <label className="block font-semibold text-slate-700 mb-1">Event Title *</label>
               <input
@@ -91,11 +91,11 @@ export default function HostEventModal({ isOpen, onClose, onEventCreated }) {
                 placeholder="e.g. SIH 2026 - Smart India Hackathon"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition"
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
                 <label className="block font-semibold text-slate-700 mb-1">Organizer / University *</label>
                 <input
@@ -104,7 +104,7 @@ export default function HostEventModal({ isOpen, onClose, onEventCreated }) {
                   placeholder="e.g. NIAT x Yenepoya University"
                   value={formData.organizer}
                   onChange={(e) => setFormData({ ...formData, organizer: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition"
                 />
               </div>
 
@@ -113,7 +113,7 @@ export default function HostEventModal({ isOpen, onClose, onEventCreated }) {
                 <select
                   value={formData.event_type}
                   onChange={(e) => setFormData({ ...formData, event_type: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition bg-white"
                 >
                   <option value="Hackathon">Hackathon</option>
                   <option value="National Hackathon">National Hackathon</option>
@@ -124,7 +124,7 @@ export default function HostEventModal({ isOpen, onClose, onEventCreated }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
                 <label className="block font-semibold text-slate-700 mb-1">City *</label>
                 <input
@@ -133,7 +133,7 @@ export default function HostEventModal({ isOpen, onClose, onEventCreated }) {
                   placeholder="e.g. Bengaluru, Chennai, Hyderabad"
                   value={formData.city}
                   onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition"
                 />
               </div>
 
@@ -145,12 +145,12 @@ export default function HostEventModal({ isOpen, onClose, onEventCreated }) {
                   placeholder="e.g. Main Auditorium / Convention Hall"
                   value={formData.venue}
                   onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
                 <label className="block font-semibold text-slate-700 mb-1">Event Date(s) *</label>
                 <input
@@ -159,7 +159,7 @@ export default function HostEventModal({ isOpen, onClose, onEventCreated }) {
                   placeholder="e.g. Dec 12 - Dec 14, 2026"
                   value={formData.event_date}
                   onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition"
                 />
               </div>
 
@@ -170,7 +170,7 @@ export default function HostEventModal({ isOpen, onClose, onEventCreated }) {
                   placeholder="e.g. ₹2,50,000"
                   value={formData.prize_pool}
                   onChange={(e) => setFormData({ ...formData, prize_pool: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition"
                 />
               </div>
             </div>
@@ -182,22 +182,22 @@ export default function HostEventModal({ isOpen, onClose, onEventCreated }) {
                 placeholder="Agentic AI, GenAI, Next.js, Python, Hardware"
                 value={formData.tags}
                 onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition"
               />
             </div>
 
-            <div className="pt-3 flex justify-end gap-2 border-t border-slate-100">
+            <div className="pt-3 flex justify-end gap-2.5 border-t border-slate-100">
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-50 transition"
+                className="rounded-xl border border-slate-300 px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-50 transition"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="rounded-lg bg-brand-600 px-5 py-2 font-semibold text-white hover:bg-brand-700 transition disabled:opacity-60"
+                className="rounded-xl bg-brand-600 px-5 py-2.5 font-bold text-white hover:bg-brand-700 transition disabled:opacity-60 shadow-subtle btn-shine"
               >
                 {loading ? 'Publishing...' : 'Publish Event'}
               </button>

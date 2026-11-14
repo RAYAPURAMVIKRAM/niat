@@ -4,14 +4,123 @@
 
 @layer base {
   body {
-    @apply font-sans bg-slate-50 text-slate-900;
+    @apply font-sans bg-slate-50 text-slate-900 antialiased selection:bg-brand-600 selection:text-white;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight text-slate-900;
   }
 }
 
-/* Custom scrollbars */
+@layer components {
+  /* Linear & Stripe inspired Glassmorphism */
+  .glass {
+    @apply bg-white/80 backdrop-blur-xl border border-slate-200/80 shadow-subtle;
+  }
+
+  .glass-card {
+    @apply bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-subtle rounded-2xl transition-all duration-300;
+  }
+
+  /* Card Lift on Hover */
+  .card-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-elevated-hover hover:border-slate-300;
+  }
+
+  /* Executive Button Light Sweep (btn-shine) */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+      60deg,
+      rgba(255, 255, 255, 0) 20%,
+      rgba(255, 255, 255, 0.35) 50%,
+      rgba(255, 255, 255, 0) 80%
+    );
+    transform: rotate(25deg);
+    transition: transform 0.8s ease;
+    pointer-events: none;
+  }
+
+  .btn-shine:hover::after {
+    transform: translateX(380%) rotate(25deg);
+  }
+
+  /* Gradient Glow Border for Active AI Agents */
+  .glow-border {
+    position: relative;
+    border-radius: 1rem;
+    background: #ffffff;
+  }
+
+  .glow-border::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, #4f46e5, #ec4899, #8b5cf6, #3b82f6);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    animation: gradient-spin 4s linear infinite;
+  }
+
+  /* Loading Skeleton Shimmer */
+  .skeleton {
+    @apply relative overflow-hidden bg-slate-200/70 rounded-lg;
+  }
+
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s infinite;
+  }
+
+  /* Badge variants */
+  .badge-verified {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700 border border-emerald-200 shadow-xs;
+  }
+
+  .badge-prize {
+    @apply inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-800 border border-amber-200 tabular-nums shadow-xs;
+  }
+
+  .badge-women-only {
+    @apply inline-flex items-center gap-1 rounded-full bg-rose-50 px-2.5 py-0.5 text-[11px] font-bold text-rose-700 border border-rose-200/80 shadow-xs;
+  }
+
+  .badge-agent {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-2.5 py-0.5 text-[11px] font-bold text-brand-700 border border-brand-200 shadow-xs;
+  }
+}
+
+/* Custom crisp scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -24,18 +133,19 @@
   background: #94a3b8;
 }
 
-/* Shimmer animation */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+/* Tabular Numbers */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
-.animate-shimmer {
-  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
+/* Reduced Motion Overrides */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

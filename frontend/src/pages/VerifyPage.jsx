@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ShieldCheck,
   CheckCircle2,
@@ -9,10 +9,18 @@ import {
   Loader2,
   Award,
   Zap,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Scan,
+  Check,
+  Radio,
+  Fingerprint
 } from 'lucide-react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import Avatar from '../components/ui/Avatar';
+import Badge from '../components/ui/Badge';
+import Reveal from '../components/ui/Reveal';
+import ProgressRing from '../components/ui/ProgressRing';
 
 export default function VerifyPage() {
   const { user, updateUser } = useAuth();
@@ -24,12 +32,29 @@ export default function VerifyPage() {
   const [imagePreview, setImagePreview] = useState('');
 
   const [verifying, setVerifying] = useState(false);
+  const [scanStep, setScanStep] = useState(0);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
 
+  const SCAN_STEPS = [
+    'Scanning ID card perimeter & physical hologram...',
+    'Performing neural OCR on institutional seal & name...',
+    'Matching roll credentials against registrar records...',
+    'Computing tamper-resistance cryptographic score...',
+  ];
+
+  useEffect(() => {
+    let interval;
+    if (verifying) {
+      interval = setInterval(() => {
+        setScanStep((prev) => (prev + 1) % SCAN_STEPS.length);
+      }, 700);
+    }
+    return () => clearInterval(interval);
+  }, [verifying]);
+
   // Sample ID Card Generator for 1-Click Judge Demo
   const handleUseSampleCard = () => {
-    // Generate a sleek synthetic college ID card on an HTML canvas
     const canvas = document.createElement('canvas');
     canvas.width = 600;
     canvas.height = 360;
@@ -142,39 +167,41 @@ export default function VerifyPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-6 max-w-4xl mx-auto pb-10">
       {/* Header */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-subtle">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+      <div className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-subtle">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200/80 shadow-xs">
             <ShieldCheck className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
               Multimodal AI College ID Trust Verification
             </h1>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs sm:text-sm text-slate-500">
               Cryptographic and visual verification for genuine student hackers & travel safety
             </p>
           </div>
         </div>
 
         {/* 2-Tier Explanation Cards */}
-        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-3.5">
-            <span className="font-bold text-emerald-900 block mb-1">
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
+          <div className="rounded-2xl border border-emerald-200/80 bg-emerald-50/70 p-4">
+            <span className="font-extrabold text-emerald-950 block mb-1">
               Tier 1: Institutional Domain Check
             </span>
-            <p className="text-emerald-700 leading-relaxed text-[11px]">
-              Automatic validation on registration for recognized student emails ending in <code className="bg-emerald-100 px-1 rounded">.edu.in</code> or <code className="bg-emerald-100 px-1 rounded">.ac.in</code>.
+            <p className="text-emerald-800 leading-relaxed text-[11px]">
+              Automatic validation on registration for recognized student emails ending in{' '}
+              <code className="bg-emerald-100/90 px-1.5 py-0.5 rounded font-mono font-bold text-emerald-900">.edu.in</code> or{' '}
+              <code className="bg-emerald-100/90 px-1.5 py-0.5 rounded font-mono font-bold text-emerald-900">.ac.in</code>.
             </p>
           </div>
 
-          <div className="rounded-xl border border-brand-200 bg-brand-50/60 p-3.5">
-            <span className="font-bold text-brand-900 block mb-1">
+          <div className="rounded-2xl border border-brand-200/80 bg-brand-50/70 p-4">
+            <span className="font-extrabold text-brand-950 block mb-1">
               Tier 2: Gemini Multimodal Vision AI
             </span>
-            <p className="text-brand-700 leading-relaxed text-[11px]">
+            <p className="text-brand-800 leading-relaxed text-[11px]">
               Deep neural analysis of physical college ID cards, OCR enrollment checks, and tamper-resistance scoring.
             </p>
           </div>
@@ -182,81 +209,100 @@ export default function VerifyPage() {
       </div>
 
       {/* Main Verification Form */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-subtle">
-        <form onSubmit={handleVerify} className="space-y-4 text-xs">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">College / University Name *</label>
+      <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-7 shadow-subtle">
+        <form onSubmit={handleVerify} className="space-y-5 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="space-y-1.5">
+              <label className="block font-bold text-slate-700">College / University Name *</label>
               <input
                 type="text"
                 required
                 value={collegeName}
                 onChange={(e) => setCollegeName(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                className="w-full rounded-xl border border-slate-300/90 px-3.5 py-2.5 font-medium text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none bg-slate-50/60 hover:bg-white transition"
               />
             </div>
 
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">Student Full Name *</label>
+            <div className="space-y-1.5">
+              <label className="block font-bold text-slate-700">Student Full Name *</label>
               <input
                 type="text"
                 required
                 value={studentName}
                 onChange={(e) => setStudentName(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                className="w-full rounded-xl border border-slate-300/90 px-3.5 py-2.5 font-medium text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none bg-slate-50/60 hover:bg-white transition"
               />
             </div>
 
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">Roll / ID Number *</label>
+            <div className="space-y-1.5">
+              <label className="block font-bold text-slate-700">Roll / ID Number *</label>
               <input
                 type="text"
                 required
                 value={idNumber}
                 onChange={(e) => setIdNumber(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand-600 focus:outline-none"
+                className="w-full rounded-xl border border-slate-300/90 px-3.5 py-2.5 font-medium text-slate-900 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 focus:outline-none bg-slate-50/60 hover:bg-white transition"
               />
             </div>
           </div>
 
           {/* ID Card Image Upload & Sample Card Button */}
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="font-semibold text-slate-700">
+            <div className="flex items-center justify-between mb-2">
+              <label className="font-bold text-slate-700">
                 Upload College ID Card Image (Physical / Digital)
               </label>
 
               <button
                 type="button"
                 onClick={handleUseSampleCard}
-                className="inline-flex items-center gap-1.5 rounded-md bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700 border border-brand-200 hover:bg-brand-100 transition"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 border border-brand-200 hover:bg-brand-100 transition shadow-xs btn-shine"
               >
-                <Sparkles className="h-3 w-3 text-brand-600" />
+                <Sparkles className="h-3.5 w-3.5 text-brand-600" />
                 <span>⚡ Use Sample NIAT ID Card</span>
               </button>
             </div>
 
-            <div className="mt-1 flex justify-center rounded-xl border-2 border-dashed border-slate-300 px-6 pt-5 pb-6 hover:border-slate-400 transition bg-slate-50/50">
+            <div className="relative overflow-hidden rounded-2xl border-2 border-dashed border-slate-300 px-6 pt-5 pb-6 hover:border-slate-400 transition bg-slate-50/50">
+              {/* Laser Scan Line Overlay while verifying */}
+              {verifying && (
+                <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">
+                  <div className="w-full h-1 bg-gradient-to-r from-transparent via-emerald-500 to-transparent shadow-[0_0_15px_#10B981] animate-scan-line" />
+                </div>
+              )}
+
               {imagePreview ? (
-                <div className="text-center space-y-3">
-                  <img
-                    src={imagePreview}
-                    alt="ID Card Preview"
-                    className="max-h-48 rounded-xl shadow-md border border-slate-300 mx-auto"
-                  />
+                <div className="text-center space-y-3 relative z-10">
+                  <div className="relative inline-block">
+                    <img
+                      src={imagePreview}
+                      alt="ID Card Preview"
+                      className="max-h-56 rounded-2xl shadow-elevated border border-slate-300 mx-auto"
+                    />
+                    {verifying && (
+                      <div className="absolute inset-0 bg-emerald-950/20 backdrop-blur-[1px] rounded-2xl flex items-center justify-center">
+                        <div className="bg-slate-900/90 text-white text-[11px] font-bold px-3 py-1.5 rounded-full flex items-center gap-2 border border-emerald-500/40 shadow-elevated">
+                          <Radio className="h-3 w-3 text-emerald-400 animate-pulse" />
+                          <span>{SCAN_STEPS[scanStep]}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   <div className="flex items-center justify-center gap-2">
                     <button
                       type="button"
                       onClick={() => { setImagePreview(''); setImageBase64(''); }}
-                      className="text-xs text-rose-600 hover:underline font-semibold"
+                      className="text-xs text-rose-600 hover:underline font-bold"
                     >
                       Remove Card
                     </button>
                   </div>
                 </div>
               ) : (
-                <div className="space-y-2 text-center">
-                  <ImageIcon className="mx-auto h-10 w-10 text-slate-400" />
+                <div className="space-y-2.5 text-center py-4">
+                  <div className="mx-auto h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                    <ImageIcon className="h-6 w-6" />
+                  </div>
                   <div className="flex text-xs text-slate-600 justify-center">
                     <label className="relative cursor-pointer rounded-md font-bold text-brand-600 hover:underline">
                       <span>Upload image</span>
@@ -276,8 +322,9 @@ export default function VerifyPage() {
           </div>
 
           {error && (
-            <div className="rounded-lg bg-rose-50 p-3 text-xs text-rose-700 border border-rose-200">
-              {error}
+            <div className="rounded-xl bg-rose-50 p-3.5 text-xs text-rose-700 border border-rose-200 flex items-center gap-2.5">
+              <AlertCircle className="h-4 w-4 text-rose-500 shrink-0" />
+              <span>{error}</span>
             </div>
           )}
 
@@ -286,7 +333,7 @@ export default function VerifyPage() {
             <button
               type="submit"
               disabled={verifying}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3 text-xs font-bold text-white shadow-md hover:bg-emerald-700 transition disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-700 py-3.5 text-xs font-bold text-white shadow-elevated hover:shadow-emerald-500/25 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed btn-shine"
             >
               {verifying ? (
                 <>
@@ -295,8 +342,8 @@ export default function VerifyPage() {
                 </>
               ) : (
                 <>
-                  <ShieldCheck className="h-4 w-4" />
-                  <span>🔍 Verify College ID with Gemini Vision AI</span>
+                  <ShieldCheck className="h-4 w-4 text-emerald-300" />
+                  <span className="tracking-wide">Verify College ID with Gemini Vision AI</span>
                 </>
               )}
             </button>
@@ -305,44 +352,55 @@ export default function VerifyPage() {
 
         {/* Verification Success Output Card */}
         {result && (
-          <div className="mt-6 rounded-xl border border-emerald-300 bg-emerald-50/70 p-5 shadow-xs animate-in fade-in">
-            <div className="flex items-center justify-between mb-3 border-b border-emerald-200/80 pb-3">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-6 w-6 text-emerald-600" />
-                <div>
-                  <h3 className="text-sm font-bold text-emerald-950">
-                    College ID Authenticated Successfully!
-                  </h3>
-                  <p className="text-xs text-emerald-700">
-                    Trust Badge Issued: <span className="font-bold">{result.badge}</span>
-                  </p>
+          <Reveal>
+            <div className="mt-7 rounded-3xl border border-emerald-300/80 bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/50 p-6 shadow-elevated">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 border-b border-emerald-200/80 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-sm">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-extrabold text-emerald-950">
+                      College ID Authenticated Successfully!
+                    </h3>
+                    <p className="text-xs text-emerald-700">
+                      Trust Badge Issued: <span className="font-bold">{result.badge}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="self-start sm:self-auto flex items-center gap-2 bg-emerald-600 text-white px-4 py-1.5 rounded-full text-xs font-extrabold shadow-sm">
+                  <Fingerprint className="h-3.5 w-3.5" />
+                  <span>{result.trust_score}% Trust Score</span>
                 </div>
               </div>
 
-              <div className="rounded-full bg-emerald-600 px-3 py-1 text-xs font-extrabold text-white">
-                {result.trust_score}% Trust Score
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs text-emerald-950">
+                <div className="rounded-2xl bg-white/90 p-3.5 border border-emerald-200 shadow-xs">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
+                    Verified Student
+                  </span>
+                  <span className="font-extrabold text-slate-900">{result.student_name}</span>
+                </div>
+                <div className="rounded-2xl bg-white/90 p-3.5 border border-emerald-200 shadow-xs">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
+                    Accredited College
+                  </span>
+                  <span className="font-extrabold text-slate-900">{result.college_name}</span>
+                </div>
+                <div className="rounded-2xl bg-white/90 p-3.5 border border-emerald-200 shadow-xs">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">
+                    Roll / Reg Number
+                  </span>
+                  <span className="font-extrabold text-slate-900">{result.id_number}</span>
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-emerald-950">
-              <div className="rounded-lg bg-white/80 p-2.5 border border-emerald-200">
-                <span className="text-[10px] text-slate-500 block">Verified Student</span>
-                <span className="font-bold">{result.student_name}</span>
-              </div>
-              <div className="rounded-lg bg-white/80 p-2.5 border border-emerald-200">
-                <span className="text-[10px] text-slate-500 block">Accredited College</span>
-                <span className="font-bold">{result.college_name}</span>
-              </div>
-              <div className="rounded-lg bg-white/80 p-2.5 border border-emerald-200">
-                <span className="text-[10px] text-slate-500 block">Roll / Reg Number</span>
-                <span className="font-bold">{result.id_number}</span>
-              </div>
+              <p className="mt-4 text-xs text-emerald-900 leading-relaxed bg-white/90 p-3.5 rounded-2xl border border-emerald-200 shadow-xs">
+                <span className="font-bold text-emerald-950">Multimodal AI Audit:</span> {result.verification_notes}
+              </p>
             </div>
-
-            <p className="mt-3 text-xs text-emerald-800 leading-relaxed bg-white/60 p-2.5 rounded-lg border border-emerald-200">
-              <span className="font-bold">Multimodal AI Audit:</span> {result.verification_notes}
-            </p>
-          </div>
+          </Reveal>
         )}
       </div>
     </div>
